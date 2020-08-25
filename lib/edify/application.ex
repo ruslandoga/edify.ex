@@ -6,6 +6,9 @@ defmodule E.Application do
   use Application
 
   def start(_type, _args) do
+    config = config()
+    setup_repo(config)
+
     children = [
       # Start the Ecto repository
       E.Repo,
@@ -14,7 +17,7 @@ defmodule E.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: E.PubSub},
       # Start the Endpoint (http/https)
-      EWeb.Endpoint
+      {EWeb.Endpoint, endpoint_config(config)}
       # Start a worker by calling: E.Worker.start_link(arg)
       # {E.Worker, arg}
     ]
@@ -30,5 +33,32 @@ defmodule E.Application do
   def config_change(changed, _new, removed) do
     EWeb.Endpoint.config_change(changed, removed)
     :ok
+  end
+
+  def config do
+    alias Vapor.Provider.{Dotenv, Env}
+
+    providers = [
+      %Dotenv{},
+      %Env{
+        bindings: [
+          {:db_url, "DB_URL"},
+          {:http_port, "HTTP_PORT"},
+          {:url_host, "URL_HOST"}
+        ]
+      }
+    ]
+
+    Vapor.load!(providers)
+  end
+
+  defp endpoint_config(config) do
+    [http: [port: config.http_port], url: [scheme: "https", host: config.url_host, port: 443]]
+  end
+
+  defp setup_repo(config) do
+    opts = [url: config.db_url]
+    before = Application.get_env(:edify, E.Repo)
+    Application.put_env(:edify, E.Repo, Keyword.merge(before, opts))
   end
 end

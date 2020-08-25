@@ -48,5 +48,10 @@ defmodule EWeb.Endpoint do
   plug Plug.MethodOverride
   plug Plug.Head
   plug Plug.Session, @session_options
+
+  if Mix.env() in [:dev, :test] do
+    plug Corsica, origins: "*"
+  end
+
   plug EWeb.Router
 end

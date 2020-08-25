@@ -2,10 +2,6 @@ use Mix.Config
 
 # Configure your database
 config :edify, E.Repo,
-  username: "postgres",
-  password: "postgres",
-  database: "edify_dev",
-  hostname: "localhost",
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
 
@@ -16,7 +12,6 @@ config :edify, E.Repo,
 # watchers to your application. For example, we use it
 # with webpack to recompile .js and .css sources.
 config :edify, EWeb.Endpoint,
-  http: [port: 4000],
   debug_errors: true,
   code_reloader: true,
   check_origin: false,
