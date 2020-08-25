@@ -14,7 +14,6 @@ config :edify,
 # Configures the endpoint
 config :edify, EWeb.Endpoint,
   url: [host: "localhost"],
-  secret_key_base: "ptBD5zdfVObZPKrDg1oNuwNnJNmTjHIeCst558ulJDO0MdyKAqftXVpMAsyly31k",
   render_errors: [view: EWeb.ErrorView, accepts: ~w(json), layout: false],
   pubsub_server: E.PubSub,
   live_view: [signing_salt: "PfBRGB9O"]

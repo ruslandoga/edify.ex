@@ -43,8 +43,10 @@ defmodule E.Application do
       %Env{
         bindings: [
           {:db_url, "DB_URL"},
-          {:http_port, "HTTP_PORT"},
-          {:url_host, "URL_HOST"}
+          {:db_poolsize, "POOL_SIZE", default: 10, map: &String.to_integer/1},
+          {:http_port, "HTTP_PORT", map: &String.to_integer/1},
+          {:url_host, "URL_HOST"},
+          {:secret_key_base, "SECRET_KEY_BASE"}
         ]
       }
     ]
@@ -53,11 +55,15 @@ defmodule E.Application do
   end
 
   defp endpoint_config(config) do
-    [http: [port: config.http_port], url: [scheme: "https", host: config.url_host, port: 443]]
+    [
+      http: [port: config.http_port, transport_options: [socket_opts: [:inet6]]],
+      url: [scheme: "https", host: config.url_host, port: 443],
+      secret_key_base: config.secret_key_base
+    ]
   end
 
   defp setup_repo(config) do
-    opts = [url: config.db_url]
+    opts = [url: config.db_url, pool_size: config.pool_size]
     before = Application.get_env(:edify, E.Repo)
     Application.put_env(:edify, E.Repo, Keyword.merge(before, opts))
   end

@@ -5,11 +5,12 @@ defmodule E.MixProject do
     [
       app: :edify,
       version: "0.1.0",
-      elixir: "~> 1.7",
+      elixir: "~> 1.10",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
+      release: release(),
       deps: deps()
     ]
   end
@@ -60,6 +61,17 @@ defmodule E.MixProject do
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"]
+    ]
+  end
+
+  defp release do
+    [
+      releases: [
+        edify: [
+          include_executables_for: [:unix],
+          applications: [runtime_tools: :permanent]
+        ]
+      ]
     ]
   end
 end
