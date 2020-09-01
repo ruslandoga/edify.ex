@@ -95,3 +95,8 @@ msgstr ""
 
 msgid "must be equal to %{number}"
 msgstr ""
+
+#, elixir-format
+#: lib/edify/group_sessions/group_session.ex:35
+msgid "should be in the future"
+msgstr ""

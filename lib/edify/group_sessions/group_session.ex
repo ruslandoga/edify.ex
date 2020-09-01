@@ -28,8 +28,11 @@ defmodule E.GroupSessions.GroupSession do
   defp validate_scheduled_in_future(changeset) do
     if new_scheduled_at = get_change(changeset, :scheduled_at) do
       case DateTime.compare(DateTime.utc_now(), new_scheduled_at) do
-        :lt -> changeset
-        _other -> add_error(changeset, :scheduled_at, gettext("should be in the future"))
+        :lt ->
+          changeset
+
+        _other ->
+          add_error(changeset, :scheduled_at, dgettext("errors", "should be in the future"))
       end
     else
       changeset
