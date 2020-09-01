@@ -16,10 +16,9 @@ defmodule E.Application do
       EWeb.Telemetry,
       # Start the PubSub system
       {Phoenix.PubSub, name: E.PubSub},
+      EWeb.Presence,
       # Start the Endpoint (http/https)
       {EWeb.Endpoint, endpoint_config(config)}
-      # Start a worker by calling: E.Worker.start_link(arg)
-      # {E.Worker, arg}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
@@ -63,7 +62,7 @@ defmodule E.Application do
   end
 
   defp setup_repo(config) do
-    opts = [url: config.db_url, pool_size: config.pool_size]
+    opts = [url: config.db_url, pool_size: config.db_poolsize]
     before = Application.get_env(:edify, E.Repo)
     Application.put_env(:edify, E.Repo, Keyword.merge(before, opts))
   end

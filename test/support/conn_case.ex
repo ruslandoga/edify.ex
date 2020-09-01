@@ -23,6 +23,7 @@ defmodule EWeb.ConnCase do
       import Plug.Conn
       import Phoenix.ConnTest
       import EWeb.ConnCase
+      import E.Factory
 
       alias EWeb.Router.Helpers, as: Routes
 

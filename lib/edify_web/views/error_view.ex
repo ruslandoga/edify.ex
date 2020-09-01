@@ -13,4 +13,15 @@ defmodule EWeb.ErrorView do
   def template_not_found(template, _assigns) do
     %{errors: %{detail: Phoenix.Controller.status_message_from_template(template)}}
   end
+
+  def render("changeset.json", %{changeset: %Ecto.Changeset{} = changeset}) do
+    detail =
+      Ecto.Changeset.traverse_errors(changeset, fn {message, opts} ->
+        Regex.replace(~r"%{(\w+)}", message, fn _, key ->
+          opts |> Keyword.get(String.to_existing_atom(key), key) |> to_string()
+        end)
+      end)
+
+    %{errors: %{detail: detail}}
+  end
 end

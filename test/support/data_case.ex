@@ -21,9 +21,8 @@ defmodule E.DataCase do
       alias E.Repo
 
       import Ecto
-      import Ecto.Changeset
-      import Ecto.Query
-      import E.DataCase
+      import Ecto.{Changeset, Query}
+      import E.{DataCase, Factory}
     end
   end
 

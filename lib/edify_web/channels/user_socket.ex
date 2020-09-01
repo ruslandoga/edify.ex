@@ -2,7 +2,8 @@ defmodule EWeb.UserSocket do
   use Phoenix.Socket
 
   ## Channels
-  # channel "room:*", EWeb.RoomChannel
+  channel "signal:*", EWeb.SignalChannel
+  channel "group_session:*", EWeb.GroupSession
 
   # Socket params are passed from the client and can
   # be used to verify and authenticate a user. After
@@ -17,7 +18,7 @@ defmodule EWeb.UserSocket do
   # performing token verification on connect.
   @impl true
   def connect(_params, socket, _connect_info) do
-    {:ok, socket}
+    {:ok, assign(socket, id: Ecto.UUID.generate())}
   end
 
   # Socket id's are topics that allow you to identify all sockets for a given user:
@@ -31,5 +32,7 @@ defmodule EWeb.UserSocket do
   #
   # Returning `nil` makes this socket anonymous.
   @impl true
-  def id(_socket), do: nil
+  def id(socket) do
+    "user_socket:#{socket.assigns.id}"
+  end
 end

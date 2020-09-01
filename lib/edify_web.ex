@@ -54,7 +54,13 @@ defmodule EWeb do
   def channel do
     quote do
       use Phoenix.Channel
+
+      use Phoenix.View,
+        root: "lib/edify_web/templates",
+        namespace: EWeb
+
       import EWeb.Gettext
+      alias EWeb.Presence
     end
   end
 
@@ -63,8 +69,7 @@ defmodule EWeb do
       # Import basic rendering functionality (render, render_layout, etc)
       import Phoenix.View
 
-      import EWeb.ErrorHelpers
-      import EWeb.Gettext
+      import EWeb.{ErrorHelpers, Gettext}
       alias EWeb.Router.Helpers, as: Routes
     end
   end

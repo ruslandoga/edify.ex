@@ -7,6 +7,8 @@ defmodule EWeb.Router do
 
   scope "/api", EWeb do
     pipe_through :api
+
+    get "/group_sessions/:slug", GroupSessionController, :show
   end
 
   # Enables LiveDashboard only for development

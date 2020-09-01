@@ -22,6 +22,7 @@ defmodule EWeb.ChannelCase do
       # Import conveniences for testing with channels
       import Phoenix.ChannelTest
       import EWeb.ChannelCase
+      import E.Factory
 
       # The default endpoint for testing
       @endpoint EWeb.Endpoint
