@@ -1,0 +1,10 @@
+version: "3"
+
+services:
+  edify:
+    image: ruslandoga/edify:0.1.0
+    environment:
+      - HTTP_PORT=4000
+      - URL_HOST=edify.space
+    restart: always
+    env_file: .env.prod

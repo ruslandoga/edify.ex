@@ -10,15 +10,12 @@ defmodule E.Application do
     setup_repo(config)
 
     children = [
-      # Start the Ecto repository
-      E.Repo,
-      # Start the Telemetry supervisor
-      EWeb.Telemetry,
-      # Start the PubSub system
       {Phoenix.PubSub, name: E.PubSub},
       EWeb.Presence,
-      # Start the Endpoint (http/https)
-      {EWeb.Endpoint, endpoint_config(config)}
+      {EWeb.Endpoint, endpoint_config(config)},
+      E.Repo,
+      EWeb.Telemetry,
+      {E.Release.Migrator, run_migrations?: config.run_migrations?}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
@@ -42,10 +39,10 @@ defmodule E.Application do
       %Env{
         bindings: [
           {:db_url, "DB_URL"},
-          {:db_poolsize, "POOL_SIZE", default: 10, map: &String.to_integer/1},
           {:http_port, "HTTP_PORT", map: &String.to_integer/1},
           {:url_host, "URL_HOST"},
-          {:secret_key_base, "SECRET_KEY_BASE"}
+          {:secret_key_base, "SECRET_KEY_BASE"},
+          {:run_migrations?, "RUN_MIGRATIONS", map: &E.Release.to_bool/1}
         ]
       }
     ]
@@ -62,8 +59,15 @@ defmodule E.Application do
   end
 
   defp setup_repo(config) do
-    opts = [url: config.db_url, pool_size: config.db_poolsize]
-    before = Application.get_env(:edify, E.Repo)
-    Application.put_env(:edify, E.Repo, Keyword.merge(before, opts))
+    opts = [url: config.db_url]
+
+    opts =
+      if before = Application.get_env(:edify, E.Repo) do
+        Keyword.merge(before, opts)
+      else
+        opts
+      end
+
+    Application.put_env(:edify, E.Repo, opts)
   end
 end
