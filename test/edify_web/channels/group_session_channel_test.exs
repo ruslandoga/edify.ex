@@ -21,15 +21,14 @@ defmodule EWeb.GroupSessionChannelTest do
     test "with valid payload update is saved and broadcast", %{socket: socket} do
       ref = push(socket, "update", %{"group_session" => %{"topic" => "some other topic"}})
       assert_reply ref, :ok, _
-      assert_broadcast "update", broadcast
 
       # TODO send diff?
-      assert broadcast == %{
-               "description" => "some description",
-               "scheduled_at" => nil,
-               "slug" => "some-slug",
-               "topic" => "some other topic"
-             }
+      assert_broadcast "update", %{
+        "description" => "some description",
+        "scheduled_at" => _,
+        "slug" => "some-slug",
+        "topic" => "some other topic"
+      }
     end
 
     test "with invalid payload, error is returned", %{socket: socket} do

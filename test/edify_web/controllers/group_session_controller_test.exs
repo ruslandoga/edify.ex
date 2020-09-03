@@ -5,24 +5,26 @@ defmodule EWeb.GroupSessionControllerTest do
   describe "GET /api/group_sessions/:slug" do
     test "it works", %{conn: conn} do
       # creates a new room since it doesn't yet exist
-      assert conn
-             |> get("/api/group_sessions/some-slug")
-             |> json_response(200) == %{
-               "description" => nil,
-               "scheduled_at" => nil,
-               "slug" => "some-slug",
-               "topic" => "Some slug"
-             }
-
       #  get
-      assert conn
-             |> get("/api/group_sessions/some-slug")
-             |> json_response(200) == %{
+      assert %{
                "description" => nil,
-               "scheduled_at" => nil,
+               "scheduled_at" => _,
                "slug" => "some-slug",
                "topic" => "Some slug"
-             }
+             } =
+               conn
+               |> get("/api/group_sessions/some-slug")
+               |> json_response(200)
+
+      assert %{
+               "description" => nil,
+               "scheduled_at" => _,
+               "slug" => "some-slug",
+               "topic" => "Some slug"
+             } =
+               conn
+               |> get("/api/group_sessions/some-slug")
+               |> json_response(200)
 
       assert {:ok, _} =
                GroupSessions.create_group_session(%{

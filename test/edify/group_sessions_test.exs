@@ -7,7 +7,7 @@ defmodule E.GroupSessionsTest do
     test "slugs are deduplicated" do
       assert %GroupSession{
                description: nil,
-               scheduled_at: nil,
+               scheduled_at: %DateTime{},
                slug: "slug",
                topic: "Slug"
              } = GroupSessions.create_group_session_from_slug("slug")
@@ -19,14 +19,14 @@ defmodule E.GroupSessionsTest do
 
       assert %GroupSession{
                description: nil,
-               scheduled_at: nil,
+               scheduled_at: %DateTime{},
                slug: "slug-2",
                topic: "Slug"
              } = GroupSessions.create_group_session_from_slug("slug")
 
       assert %GroupSession{
                description: nil,
-               scheduled_at: nil,
+               scheduled_at: %DateTime{},
                # TODO
                slug: "slug-1-1",
                topic: "Slug 1"
@@ -34,7 +34,7 @@ defmodule E.GroupSessionsTest do
 
       assert %GroupSession{
                description: nil,
-               scheduled_at: nil,
+               scheduled_at: %DateTime{},
                # TODO
                slug: "slug-1-2",
                topic: "Slug 1"
@@ -42,21 +42,21 @@ defmodule E.GroupSessionsTest do
 
       assert %GroupSession{
                description: nil,
-               scheduled_at: nil,
+               scheduled_at: %DateTime{},
                slug: "slug-2-1",
                topic: "Slug 2"
              } = GroupSessions.create_group_session_from_slug("slug-2")
 
       assert %GroupSession{
                description: nil,
-               scheduled_at: nil,
+               scheduled_at: %DateTime{},
                slug: "other-slug",
                topic: "Other slug"
              } = GroupSessions.create_group_session_from_slug("other-slug")
 
       assert %GroupSession{
                description: nil,
-               scheduled_at: nil,
+               scheduled_at: %DateTime{},
                # TODO?
                slug: "other-slug-",
                topic: "Other slug"
@@ -64,7 +64,7 @@ defmodule E.GroupSessionsTest do
 
       assert %GroupSession{
                description: nil,
-               scheduled_at: nil,
+               scheduled_at: %DateTime{},
                # TODO
                slug: "other-slug--1",
                topic: "Other slug"
@@ -152,7 +152,7 @@ defmodule E.GroupSessionsTest do
       assert %GroupSession{
                slug: "some-group-session",
                topic: "Some group session",
-               scheduled_at: nil,
+               scheduled_at: %DateTime{},
                description: nil
              } = GroupSessions.get_or_create_group_session_for_slug("some-group-session")
     end
