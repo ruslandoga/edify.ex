@@ -4,6 +4,8 @@ defmodule EWeb.UserSocket do
   ## Channels
   channel "signal:*", EWeb.SignalChannel
   channel "group_session:*", EWeb.GroupSession
+  # TODO test
+  channel "search", EWeb.SearchChannel
 
   # Socket params are passed from the client and can
   # be used to verify and authenticate a user. After
